@@ -1,25 +1,61 @@
 // src/js/routes.js
+
 export const routes = {
+  // ---------------
+  // Main pages
+  // ---------------
+
   "#Home": {
     path: "src/features/Home/home.html",
     requiresPassword: false
   },
+
   "#Tools": {
     path: "src/features/Tools/tools.html",
     requiresPassword: false
   },
+
   "#Login": {
     path: "src/features/Auth/login.html",
     requiresPassword: false
   },
 
-  // SubPage pro Tools – načte se do #subPageContent
-  "#pckDtbSearch": {
-    path: "src/features/Tools/pckDtbView.html",
-    requiresPassword: true,   // chráněná stránka
-    parent: "#Tools"          // obsah do subPageContent
-  }
+  "#Profile": {
+  path: "src/features/Auth/profile.html",
+  requiresPassword: true
+},
 
-  // další subPages:
-  // "#něco": { path: "…", parent: "#Tools", requiresPassword: false }
+  "#Presentations": {
+    path: "src/features/Presentations/presentations.html",
+    requiresPassword: false
+  },
+
+  //--------------
+  // PDF files
+  //--------------
+
+  "#TestPP": {
+    path: "src/features/Presentations/TestPP.pdf",
+    requiresPassword: true,
+    parent: "#Presentations",
+    isPdf: true
+  },
+
+  //--------------
+  // SubPages
+  //-------------
+
+  "#pckDtbSearch": {
+    path: "src/features/Tools/pckDtbSearch.html",
+    requiresPassword: true,
+    parent: "#Tools",
+    isPdf: false
+  },
+
+  "#pckDtbEdit": {
+    path: "src/features/Tools/pckDtbEdit.html",
+    requiresPassword: true,
+    parent: "#Tools",
+    isPdf: false
+  }
 };

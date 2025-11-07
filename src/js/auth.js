@@ -1,110 +1,128 @@
 // src/js/auth.js
 
-// Jednoduchý stav přihlášení v paměti prohlížeče
+// ---------------------------
+// 1) STAV PŘIHLÁŠENÍ
+// ---------------------------
+
 let loginState = {
   isLoggedIn: false,
-  accesses: []   // např. ["#pckDtbSearch", "#Admin"]
+  username: null,
+  accesses: []   // např. ["#pckDtbSearch", "#TestPP"]
 };
 
-// Změň si podle svého Node-RED flow:
-const LOGIN_API_URL = "http://localhost:1880/login"; // např. "http://localhost:1880/login"
+const LOGIN_API_URL = "http://localhost:1880/login";
+
+// ---------------------------
+// 2) PRÁCE SE STAVEM
+// ---------------------------
 
 export function getLoginState() {
   return { ...loginState };
 }
 
+export function userIsLoggedIn() {
+  return loginState.isLoggedIn;
+}
+
 export function hasAccess(hash) {
-  // tuto funkci volá router pro stránky s requiresPassword === true
   if (!loginState.isLoggedIn) return false;
-  // očekáváme, že Node-RED pošle hashe rout, ke kterým má uživatel přístup
+  if (!loginState.accesses || loginState.accesses.length === 0) return false;
+
   return loginState.accesses.includes(hash);
 }
 
-function setLoginSuccess(accesses = []) {
+function setLoginSuccess(accesses, username) {
   loginState.isLoggedIn = true;
-  loginState.accesses = Array.isArray(accesses) ? accesses : [];
+  loginState.username = username || null;
+  loginState.accesses = accesses || [];
+  updateLoginNavLink();
 }
 
-function setLogout() {
+function clearLogin() {
   loginState.isLoggedIn = false;
+  loginState.username = null;
   loginState.accesses = [];
+  updateLoginNavLink();
 }
 
-// Inicializace přihlašovacího formuláře na login.html
-export function initLoginForm() {
-  const form = document.getElementById("login-form");
-  const msgBox = document.getElementById("login-message");
+function updateLoginNavLink() {
+  const loginLink = document.getElementById("loginNavLink");
+  if (!loginLink) return;
 
-  if (!form) {
-    // stránka ještě není v DOMu, nic neděláme
-    return;
+  if (loginState.isLoggedIn && loginState.username) {
+    // Uživatel přihlášen – zobrazíme jeho jméno a odkaz na profil
+    loginLink.textContent = loginState.username;
+    loginLink.setAttribute("href", "#Profile");
+  } else {
+    // Uživatel odhlášen – klasický „Login“
+    loginLink.textContent = "Login";
+    loginLink.setAttribute("href", "#Login");
   }
+}
+
+
+// ---------------------------
+// 3) ODESLÁNÍ LOGIN FORMULÁŘE
+// ---------------------------
+
+async function sendLogin(username, password) {
+  const resp = await fetch(LOGIN_API_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username, password })
+  });
+
+  if (!resp.ok) {
+    throw new Error("Chyba při komunikaci s přihlašovacím API");
+  }
+
+  return await resp.json();
+}
+
+// ---------------------------
+// 4) PRÁCE S FORMULÁŘEM NA STRÁNCE
+// ---------------------------
+
+export function initLoginForm() {
+  const form = document.getElementById("loginForm");
+  const messageBox = document.getElementById("loginMessage");
+
+  if (!form) return;
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
-    const formData = new FormData(form);
-    const username = formData.get("username");
-    const password = formData.get("password");
-
-    if (msgBox) {
-      msgBox.textContent = "Přihlašuji…";
-    }
+    const username = form.elements["username"].value;
+    const password = form.elements["password"].value;
 
     try {
-      const resp = await fetch(LOGIN_API_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ username, password })
-      });
-
-      if (!resp.ok) {
-        throw new Error(`Chyba API: ${resp.status} ${resp.statusText}`);
-      }
-
-      // očekáváme JSON z Node-RED:
-      // { "message": "Login byl úspěšný", "accesses": ["#pckDtbSearch", ...] }
-      let data;
-      try {
-        data = await resp.json();
-      } catch (e) {
-        // fallback – Node-RED poslal jen text
-        const text = await resp.text();
-        data = { message: text };
-      }
+      const data = await sendLogin(username, password);
 
       if (data.message === "Login byl úspěšný") {
-        setLoginSuccess(data.accesses);
-        if (msgBox) {
-          msgBox.textContent = "Přihlášení proběhlo úspěšně.";
-        }
-        // po úspěšném loginu klidně přesměrujeme na Home
+        setLoginSuccess(data.accesses, username);
+        messageBox.textContent = "Přihlášení proběhlo úspěšně.";
         window.location.hash = "#Home";
       } else {
-        if (msgBox) {
-          msgBox.textContent = data.message || "Přihlášení se nezdařilo.";
-        }
+        clearLogin();
+        messageBox.textContent = data.message || "Přihlášení selhalo.";
       }
     } catch (error) {
+      clearLogin();
       console.error(error);
-      if (msgBox) {
-        msgBox.textContent = "Došlo k chybě při přihlášení.";
-      }
+      messageBox.textContent = "Nastala chyba při přihlášení.";
     }
   });
 }
 
-// (volitelné) jednoduchá funkce pro odhlášení – můžeš použít později
+// ---------------------------
+// 5) ODHLÁŠENÍ
+// ---------------------------
+
 export function logout() {
-  setLogout();
+  clearLogin();
   window.location.hash = "#Home";
 }
 
-/*
-nastav, ať endpoint LOGIN_API_URL vrací JSON ve tvaru např.
-{ "message": "Login byl úspěšný", "accesses": ["#pckDtbSearch"] }
-
-accesses jsou hashe rout, které se mají uživateli odemknout.
-*/
+document.addEventListener("DOMContentLoaded", () => {
+  updateLoginNavLink();
+});
