@@ -1,3 +1,368 @@
 <div id="pckDtbEdit">
-    <h1>Pacakgign database edit page loaded</h1>
+  <h1>Packaging database – edit</h1>
+
+  <div id="pckDtbEditMessage" role="status"></div>
+
+  <form id="pckDtbEditForm">
+    <!-- GENERAL INFORMATION -->
+    <fieldset>
+      <legend>General information</legend>
+
+      <div>
+        <label for="field-Project">Project</label>
+        <input id="field-Project" name="Project" type="text">
+      </div>
+
+      <div>
+        <label for="field-Part_number">Part number</label>
+        <input id="field-Part_number" name="Part_number" type="text">
+      </div>
+
+      <div>
+        <label for="field-Part_name">Part name</label>
+        <input id="field-Part_name" name="Part name" type="text">
+      </div>
+
+      <div>
+        <label for="field-Part_weight">Part weight (kg)</label>
+        <input id="field-Part_weight" name="Part weight (kg)" type="text">
+      </div>
+
+      <div>
+        <label for="field-Usage">Usage</label>
+        <input id="field-Usage" name="Usage" type="text">
+      </div>
+
+      <div>
+        <label for="field-SupplierCustomer">Supplier / Customer</label>
+        <input id="field-SupplierCustomer" name="Supplier / Customer" type="text">
+      </div>
+
+      <div>
+        <label for="field-Concept_status">Concept status</label>
+        <input id="field-Concept_status" name="Concept status" type="text">
+      </div>
+
+      <div>
+        <label for="field-Part_type">Part type</label>
+        <input id="field-Part_type" name="Part type" type="text">
+      </div>
+    </fieldset>
+
+    <!-- PRIMARY PACKAGING -->
+    <fieldset>
+      <legend>Primary packaging</legend>
+
+      <div>
+        <label for="field-Type_of_ppack">Type of p-pack</label>
+        <select id="field-Type_of_ppack" name="Type of p-pack">
+          <option value="" disabled selected>Select an option</option>
+          <option value="Self-supporting tray">Self-supporting tray</option>
+          <option value="Pallet container">Pallet container</option>
+          <option value="KLT Box">KLT Box</option>
+          <option value="Barrel / Bucket">Barrel / Bucket</option>
+          <option value="Cardboard box">Cardboard box</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="field-Ppack_RE_EX">P-pack RE / EX</label>
+        <select id="field-Ppack_RE_EX" name="P-pack RE / EX">
+          <option value="" disabled selected>Select an option</option>
+          <option value="Returnable">Returnable</option>
+          <option value="Expendable">Expendable</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="field-Ppack_description">P-pack description</label>
+        <div id="p-pack-description-container">
+          <input id="field-Ppack_description" name="P-pack description" type="text">
+        </div>
+      </div>
+
+      <div>
+        <label for="field-SAP_ID_Ppack">SAP ID P-pack</label>
+        <input id="field-SAP_ID_Ppack" name="SAP ID P-pack" type="text">
+      </div>
+
+      <div>
+        <label for="field-Ownership_Ppack">Ownership P-pack</label>
+        <input id="field-Ownership_Ppack" name="Ownership P-pack" type="text">
+      </div>
+
+      <div>
+        <label for="field-Weight_empty_Ppack">Weight of empty P-pack (kg)</label>
+        <input id="field-Weight_empty_Ppack" name="Weight of empty P-pack (kg)" type="text">
+      </div>
+
+      <div>
+        <label for="field-Weight_full_Ppack">Weight of full P-pack</label>
+        <input id="field-Weight_full_Ppack" name="Weight of full P-pack" type="text">
+      </div>
+
+      <div>
+        <label for="field-Lenght_Ppack">Lenght of P-pack</label>
+        <input id="field-Lenght_Ppack" name="Lenght of P-pack" type="text">
+      </div>
+
+      <div>
+        <label for="field-Width_Ppack">Width of P-pack (mm)</label>
+        <input id="field-Width_Ppack" name="Width of P-pack (mm)" type="text">
+      </div>
+
+      <div>
+        <label for="field-Height_Ppack">Height of P-pack (mm)</label>
+        <input id="field-Height_Ppack" name="Height of P-pack (mm)" type="text">
+      </div>
+
+      <div>
+        <label for="field-Pcs_per_Ppack">Pcs /P-pack</label>
+        <input id="field-Pcs_per_Ppack" name="Pcs /P-pack" type="text">
+      </div>
+
+      <div>
+        <label for="field-QTY_Ppacks_layer">QTY of P-packs in layer on pallet</label>
+        <input id="field-QTY_Ppacks_layer" name="QTY of P-packs in layer on pallet" type="text">
+      </div>
+
+      <div>
+        <label for="field-QTY_layers_pallet">QTY of layers on pallet</label>
+        <input id="field-QTY_layers_pallet" name="QTY of layers on pallet" type="text">
+      </div>
+
+      <div>
+        <label for="field-Ppack_lid_RE_EX">P-pack lid RE / EX</label>
+        <select id="field-Ppack_lid_RE_EX" name="P-pack lid RE / EX">
+          <option value="" disabled selected>Select an option</option>
+          <option value="Returnable">Returnable</option>
+          <option value="Expendable">Expendable</option>
+          <option value="-">-</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="field-Ppack_lid_name">P-pack lid name</label>
+        <div id="p-pack-lid-name-container">
+          <input id="field-Ppack_lid_name" name="P-pack lid name" type="text">
+        </div>
+      </div>
+
+      <div>
+        <label for="field-Ppack_lid_weight">P-pack lid weight (kg)</label>
+        <input id="field-Ppack_lid_weight" name="P-pack lid weight (kg)" type="text">
+      </div>
+
+      <div>
+        <label for="field-QTY_Ppack_lids">QTY of P-pack lids on pallet</label>
+        <input id="field-QTY_Ppack_lids" name="QTY of P-pack lids on pallet" type="text">
+      </div>
+
+      <div>
+        <label for="field-Ppack_lid_SAP_no">P-pack lid SAP no</label>
+        <input id="field-Ppack_lid_SAP_no" name="P-pack lid SAP no" type="text">
+      </div>
+    </fieldset>
+
+    <!-- INNER PACKAGING -->
+    <fieldset>
+      <legend>Inner packaging</legend>
+
+      <div>
+        <label for="field-Type_inner_packaging">Type of inner packaging</label>
+        <select id="field-Type_inner_packaging" name="Type of inner packaging">
+          <option value="" disabled selected>Select an option</option>
+          <option value="Thermoformed tray">Thermoformed tray</option>
+          <option value="Foam Tray">Foam Tray</option>
+          <option value="Bulk">Bulk</option>
+          <option value="Arranged parts">Arranged parts</option>
+          <option value="Tube">Tube</option>
+          <option value="Cardboardplastic separator">Cardboardplastic separator</option>
+          <option value="Reel">Reel</option>
+          <option value="Roll">Roll</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="field-Inner_packaging_RE_EX">Inner packaging RE / EX</label>
+        <select id="field-Inner_packaging_RE_EX" name="Inner packaging RE / EX">
+          <option value="" disabled selected>Select an option</option>
+          <option value="Returnable">Returnable</option>
+          <option value="Expendable">Expendable</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="field-Inner_packaging_name">Inner packaging name</label>
+        <input id="field-Inner_packaging_name" name="Inner packaging name" type="text">
+      </div>
+
+      <div>
+        <label for="field-Inner_packaging_SAP_no">Inner packaging SAP no</label>
+        <input id="field-Inner_packaging_SAP_no" name="Inner packaging SAP no" type="text">
+      </div>
+
+      <div>
+        <label for="field-Inner_packaging_ownership">Inner packaging ownership</label>
+        <select id="field-Inner_packaging_ownership" name="Inner packaging ownership">
+          <option value="" disabled selected>Select an option</option>
+          <option value="Supplier">Supplier</option>
+          <option value="Schaeffler">Schaeffler</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="field-Empty_inner_weight">Empty inner packaging weight (kg)</label>
+        <input id="field-Empty_inner_weight" name="Empty inner packaging weight (kg)" type="text">
+      </div>
+
+      <div>
+        <label for="field-Full_inner_weight">Full inner packaging weight (kg)</label>
+        <input id="field-Full_inner_weight" name="Full inner packaging weight (kg)" type="text">
+      </div>
+
+      <div>
+        <label for="field-Inner_lenght">Inner packaging lenght (mm)</label>
+        <input id="field-Inner_lenght" name="Inner packaging lenght (mm)" type="text">
+      </div>
+
+      <div>
+        <label for="field-Inner_width">Inner packaging width (mm)</label>
+        <input id="field-Inner_width" name="Inner packaging width (mm)" type="text">
+      </div>
+
+      <div>
+        <label for="field-Inner_height">Inner packaging height (mm)</label>
+        <input id="field-Inner_height" name="Inner packaging height (mm)" type="text">
+      </div>
+
+      <div>
+        <label for="field-Pcs_per_inner">Pcs /Inner packaging</label>
+        <input id="field-Pcs_per_inner" name="Pcs /Inner packaging" type="text">
+      </div>
+
+      <div>
+        <label for="field-QTY_inner_in_Ppack">QTY of inner packaging inside P-pack</label>
+        <input id="field-QTY_inner_in_Ppack" name="QTY of inner packaging inside P-pack" type="text">
+      </div>
+
+      <div>
+        <label for="field-QTY_layers_inner_in_Ppack">QTY of layers of inner packaging inside P-pack</label>
+        <input id="field-QTY_layers_inner_in_Ppack" name="QTY of layers of inner packaging inside P-pack" type="text">
+      </div>
+
+      <div>
+        <label for="field-Description_other_materials">
+          Description of other packaging materials inside P-pack
+        </label>
+        <input id="field-Description_other_materials" name="Description of other packaging materials inside P-pack" type="text">
+      </div>
+    </fieldset>
+
+    <!-- LOADING UNIT / PALLET -->
+    <fieldset>
+      <legend>Loading unit (pallet)</legend>
+
+      <div>
+        <label for="field-Pallet_RE_EX">Pallet RE / EX</label>
+        <select id="field-Pallet_RE_EX" name="Pallet RE / EX">
+          <option value="" disabled selected>Select an option</option>
+          <option value="Returnable">Returnable</option>
+          <option value="Expendable">Expendable</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="field-Pallet_SAP_no">Pallet SAP no</label>
+        <input id="field-Pallet_SAP_no" name="Pallet SAP no" type="text">
+      </div>
+
+      <div>
+        <label for="field-Pallet_name">Pallet name</label>
+        <div id="pallet-name-container">
+          <input id="field-Pallet_name" name="Pallet name" type="text">
+        </div>
+      </div>
+
+      <div>
+        <label for="field-Empty_pallet_weight">Empty pallet weight (kg)</label>
+        <input id="field-Empty_pallet_weight" name="Empty pallet weight (kg)" type="text">
+      </div>
+
+      <div>
+        <label for="field-Pallet_lenght">Pallet lenght (mm)</label>
+        <input id="field-Pallet_lenght" name="Pallet lenght (mm)" type="text">
+      </div>
+
+      <div>
+        <label for="field-Pallet_width">Pallet width (mm)</label>
+        <input id="field-Pallet_width" name="Pallet width (mm)" type="text">
+      </div>
+
+      <div>
+        <label for="field-Height_empty_pallet">Height of empty pallet (mm)</label>
+        <input id="field-Height_empty_pallet" name="Height of empty pallet (mm)" type="text">
+      </div>
+
+      <div>
+        <label for="field-Height_full_pallet">Height of full pallet (mm)</label>
+        <input id="field-Height_full_pallet" name="Height of full pallet (mm)" type="text">
+      </div>
+
+      <div>
+        <label for="field-Pallet_lid_SAP_no">Pallet lid SAP no</label>
+        <input id="field-Pallet_lid_SAP_no" name="Pallet lid SAP no" type="text">
+      </div>
+
+      <div>
+        <label for="field-Pallet_lid_description">Pallet lid description</label>
+        <div id="pallet-lid-description-container">
+          <input id="field-Pallet_lid_description" name="Pallet lid description" type="text">
+        </div>
+      </div>
+
+      <div>
+        <label for="field-Pallet_lid_weight">Pallet lid weight (kg)</label>
+        <input id="field-Pallet_lid_weight" name="Pallet lid weight (kg)" type="text">
+      </div>
+
+      <div>
+        <label for="field-Pallet_lid_RE_EX">Pallet lid RE / EX</label>
+        <select id="field-Pallet_lid_RE_EX" name="Pallet lid RE / EX">
+          <option value="" disabled selected>Select an option</option>
+          <option value="Returnable">Returnable</option>
+          <option value="Expendable">Expendable</option>
+          <option value="-">-</option>
+        </select>
+      </div>
+    </fieldset>
+
+        </fieldset>
+
+    <section id="pckDtbEditUpload">
+      <h2>PSDS document</h2>
+      <p>Nahraj k tomuto záznamu soubor PSDS (např. PDF).</p>
+
+      <div>
+        <label for="field-psdsFile">Nahrát PSDS</label>
+        <input
+          id="field-psdsFile"
+          name="psdsFile"
+          type="file"
+          accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg"
+        >
+      </div>
+
+      <div id="pckDtbEditUploadStatus" role="status"></div>
+
+      <!-- skryté pole pro URL, která se uloží do DB -->
+      <input id="field-URL1" name="URL1" type="hidden">
+    </section>
+
+    <div>
+      <button type="submit">Odeslat</button>
+      <button type="button" id="pckDtbEditClear">Vymazat formulář</button>
+    </div>
+  </form>
 </div>
+

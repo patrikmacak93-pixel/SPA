@@ -1,6 +1,7 @@
 // src/js/main.js
 import { routes } from "./routes.js";
 import { hasAccess, initLoginForm } from "./auth.js";
+import { initPckDtbEditForm } from "./pckDtbEdit.js";
 
 const MAIN_OUTLET_ID = "content";
 const SUBPAGE_OUTLET_ID = "subPageContent";
@@ -105,6 +106,10 @@ async function loadByHash(hash) {
   // 4) speciální inicializace pro konkrétní stránky
   if (hash === "#Login") {
     initLoginForm();
+  }
+
+  if (hash === "#pckDtbEdit") {
+    initPckDtbEditForm();
   }
 }
 
