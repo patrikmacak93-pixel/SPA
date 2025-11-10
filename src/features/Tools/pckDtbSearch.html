@@ -1,3 +1,33 @@
-<div id="pckDtbView">
-    <h1>Pacakgign database search page loaded</h1>
+<div id="pckDtbSearchRoot">
+  <h2>PCK – Database Search</h2>
+
+  <div class="pck-controls">
+    <button id="pck-export-btn">Export filtered to CSV</button>
+
+    <label style="margin-left: 1rem">
+      Rows per page:
+      <select id="pck-items-per-page">
+        <option value="10">10</option>
+        <option value="15" selected>15</option>
+        <option value="25">25</option>
+        <option value="50">50</option>
+      </select>
+    </label>
+  </div>
+
+  <div class="pck-table-container">
+    <table id="pck-table">
+      <thead>
+        <tr id="pck-header-row"></tr>
+        <tr id="pck-filter-row"></tr>
+      </thead>
+      <tbody id="pck-body"></tbody>
+    </table>
+  </div>
+
+  <div class="pck-pagination">
+    <button id="pck-prev-page">&laquo; Předchozí</button>
+    <span id="pck-page-info"></span>
+    <button id="pck-next-page">Další &raquo;</button>
+  </div>
 </div>

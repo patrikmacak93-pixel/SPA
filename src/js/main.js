@@ -30,7 +30,9 @@ async function fetchHtml(path) {
   const resp = await fetch(path);
 
   if (!resp.ok) {
-    throw new Error(`Chyba při načítání "${path}": ${resp.status} ${resp.statusText}`);
+    throw new Error(
+      `Chyba při načítání "${path}": ${resp.status} ${resp.statusText}`
+    );
   }
 
   return await resp.text();
@@ -110,6 +112,10 @@ async function loadByHash(hash) {
 
   if (hash === "#pckDtbEdit") {
     initPckDtbEditForm();
+  }
+
+  if (hash === "#pckDtbSearch" && window.pckDtbSearchInit) {
+    window.pckDtbSearchInit();
   }
 }
 

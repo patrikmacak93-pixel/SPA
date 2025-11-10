@@ -1,5 +1,3 @@
-// src/js/auth.js
-
 // ---------------------------
 // 1) STAV PŘIHLÁŠENÍ
 // ---------------------------
@@ -8,13 +6,12 @@ let loginState = {
   isLoggedIn: false,
   username: null,
   accesses: [],
-  lastActivity: null   // timestamp poslední aktivity (Date.now())
+  lastActivity: null,
 };
 
-
-const LOGIN_API_URL = "http://localhost:1880/login";
+const LOGIN_API_URL = "https://10.212.32.39:1884/login";
 const LOGIN_STORAGE_KEY = "spaLoginState";
-const INACTIVITY_LIMIT_MS = 20 * 60 * 1000; // 20 minut v milisekundách
+const INACTIVITY_LIMIT_MS = 1 * 60 * 1000; // 20 minut v milisekundách
 
 // Načtení stavu z localStorage
 function loadLoginState() {
@@ -24,10 +21,11 @@ function loadLoginState() {
 
     const parsed = JSON.parse(raw);
 
-    loginState.isLoggedIn   = !!parsed.isLoggedIn;
-    loginState.username     = parsed.username || null;
-    loginState.accesses     = Array.isArray(parsed.accesses) ? parsed.accesses : [];
-    loginState.lastActivity = typeof parsed.lastActivity === "number" ? parsed.lastActivity : null;
+    loginState.isLoggedIn = !!parsed.isLoggedIn;
+    loginState.username = parsed.username || null;
+    loginState.accesses = Array.isArray(parsed.accesses) ? parsed.accesses : [];
+    loginState.lastActivity =
+      typeof parsed.lastActivity === "number" ? parsed.lastActivity : null;
   } catch (err) {
     console.warn("Nepodařilo se načíst loginState z localStorage", err);
   }
@@ -36,10 +34,10 @@ function loadLoginState() {
 function saveLoginState() {
   try {
     const toSave = {
-      isLoggedIn:   loginState.isLoggedIn,
-      username:     loginState.username,
-      accesses:     loginState.accesses,
-      lastActivity: loginState.lastActivity
+      isLoggedIn: loginState.isLoggedIn,
+      username: loginState.username,
+      accesses: loginState.accesses,
+      lastActivity: loginState.lastActivity,
     };
     localStorage.setItem(LOGIN_STORAGE_KEY, JSON.stringify(toSave));
   } catch (err) {
@@ -75,14 +73,13 @@ function handleUserActivity() {
 function setupInactivityTracking() {
   const events = ["click", "keydown", "mousemove", "scroll", "touchstart"];
 
-  events.forEach(ev => {
+  events.forEach((ev) => {
     document.addEventListener(ev, handleUserActivity, { passive: true });
   });
 
   // Kontrola třeba každou minutu
   setInterval(checkInactivity, 60 * 1000);
 }
-
 
 // ---------------------------
 // 2) PRÁCE SE STAVEM
@@ -104,9 +101,9 @@ export function hasAccess(hash) {
 }
 
 function setLoginSuccess(accesses, username) {
-  loginState.isLoggedIn   = true;
-  loginState.username     = username || null;
-  loginState.accesses     = accesses || [];
+  loginState.isLoggedIn = true;
+  loginState.username = username || null;
+  loginState.accesses = accesses || [];
   loginState.lastActivity = Date.now(); // přihlášení = aktivita
 
   saveLoginState();
@@ -114,16 +111,14 @@ function setLoginSuccess(accesses, username) {
 }
 
 function clearLogin() {
-  loginState.isLoggedIn   = false;
-  loginState.username     = null;
-  loginState.accesses     = [];
+  loginState.isLoggedIn = false;
+  loginState.username = null;
+  loginState.accesses = [];
   loginState.lastActivity = null;
 
   saveLoginState();
   updateLoginNavLink();
 }
-
-
 
 function updateLoginNavLink() {
   const loginLink = document.getElementById("loginNavLink");
@@ -140,7 +135,6 @@ function updateLoginNavLink() {
   }
 }
 
-
 // ---------------------------
 // 3) ODESLÁNÍ LOGIN FORMULÁŘE
 // ---------------------------
@@ -149,7 +143,7 @@ async function sendLogin(username, password) {
   const resp = await fetch(LOGIN_API_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username, password })
+    body: JSON.stringify({ username, password }),
   });
 
   if (!resp.ok) {
@@ -178,7 +172,7 @@ export function initLoginForm() {
     try {
       const data = await sendLogin(username, password);
 
-      if (data.message === "Login byl úspěšný") {
+      if (data.message === "Login successful") {
         setLoginSuccess(data.accesses, username);
         messageBox.textContent = "Přihlášení proběhlo úspěšně.";
         window.location.hash = "#Home";
@@ -216,4 +210,3 @@ document.addEventListener("DOMContentLoaded", () => {
   // 4) zapni sledování aktivity + pravidelnou kontrolu
   setupInactivityTracking();
 });
-

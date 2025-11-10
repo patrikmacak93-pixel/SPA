@@ -1,9 +1,9 @@
 // src/js/pckDtbEdit.js
 
 // URL na Node-RED HTTP In node
-const FORM_API_URL = "http://localhost:1880/submit-form";
+const FORM_API_URL = "https://10.212.32.39:1884/submit-form";
 // Endpoint pro nahrávání PSDS souboru
-const UPLOAD_API_URL = "http://localhost:1880/upload-psds";
+const UPLOAD_API_URL = "https://10.212.32.39:1884/upload-psds";
 /**
  * Inicializace formuláře Packaging Database Edit.
  */
@@ -20,7 +20,7 @@ export function initPckDtbEditForm() {
     messageBox.dataset.type = type; // můžeš v CSS použít [data-type="error"] atd.
   }
 
-    // --- Nahrávání PSDS souboru (stejně jako ui-file-input v Node-RED) ---
+  // --- Nahrávání PSDS souboru (stejně jako ui-file-input v Node-RED) ---
   const uploadInput = document.getElementById("field-psdsFile");
   const uploadStatus = document.getElementById("pckDtbEditUploadStatus");
   const urlHiddenField = document.getElementById("field-URL1");
@@ -46,7 +46,9 @@ export function initPckDtbEditForm() {
 
       if (!response.ok) {
         console.error("Upload HTTP error", response.status);
-        showUploadStatus(`Chyba při nahrávání souboru (kód ${response.status}).`);
+        showUploadStatus(
+          `Chyba při nahrávání souboru (kód ${response.status}).`
+        );
         if (urlHiddenField) urlHiddenField.value = "";
         return;
       }
@@ -121,7 +123,7 @@ export function initPckDtbEditForm() {
   });
 
   // VYMAZÁNÍ FORMULÁŘE
-    // VYMAZÁNÍ FORMULÁŘE
+  // VYMAZÁNÍ FORMULÁŘE
   if (clearButton) {
     clearButton.addEventListener("click", () => {
       form.reset();
@@ -137,7 +139,6 @@ export function initPckDtbEditForm() {
     });
   }
 
-
   // DYNAMICKÉ CHOVÁNÍ (dropdowny -> disable/enable polí)
   setupDynamicBehaviour(form);
 }
@@ -146,13 +147,15 @@ export function initPckDtbEditForm() {
  * Přidá logiku dropdownů jako v Node-RED ui-template.
  */
 function setupDynamicBehaviour(form) {
-  const field = (name) => (form.elements[name] ?? null);
+  const field = (name) => form.elements[name] ?? null;
 
   // ----------------------------------------------------
   // 1) Type of p-pack (KLT Box -> dropdown + zamknutí polí)
   // ----------------------------------------------------
   const typeOfPpackSelect = field("Type of p-pack");
-  const descriptionContainer = document.getElementById("p-pack-description-container");
+  const descriptionContainer = document.getElementById(
+    "p-pack-description-container"
+  );
   const sapIdPpackInput = field("SAP ID P-pack");
   const weightOfEmptyPpackKg = field("Weight of empty P-pack (kg)");
   const lenghtOfPpack = field("Lenght of P-pack");
@@ -232,7 +235,9 @@ function setupDynamicBehaviour(form) {
   // 2) P-pack lid RE / EX (Returnable -> dropdown + lock weight + SAP)
   // ----------------------------------------------------
   const ppackLidReEx = field("P-pack lid RE / EX");
-  const ppackLidNameContainer = document.getElementById("p-pack-lid-name-container");
+  const ppackLidNameContainer = document.getElementById(
+    "p-pack-lid-name-container"
+  );
   const ppackLidWeight = field("P-pack lid weight (kg)");
   const ppackLidSap = field("P-pack lid SAP no");
 
@@ -370,7 +375,9 @@ function setupDynamicBehaviour(form) {
   // 4) Pallet lid RE / EX (Returnable -> dropdown + lock weight)
   // ----------------------------------------------------
   const palletLidReEx = field("Pallet lid RE / EX");
-  const palletLidNameContainer = document.getElementById("pallet-lid-description-container");
+  const palletLidNameContainer = document.getElementById(
+    "pallet-lid-description-container"
+  );
   const palletLidWeight = field("Pallet lid weight (kg)");
 
   if (palletLidReEx && palletLidNameContainer) {

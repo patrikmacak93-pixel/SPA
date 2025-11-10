@@ -7,27 +7,27 @@ export const routes = {
 
   "#Home": {
     path: "src/features/Home/home.html",
-    requiresPassword: false
+    requiresPassword: false,
   },
 
   "#Tools": {
     path: "src/features/Tools/tools.html",
-    requiresPassword: false
+    requiresPassword: false,
   },
 
   "#Login": {
     path: "src/features/Auth/login.html",
-    requiresPassword: false
+    requiresPassword: false,
   },
 
   "#Profile": {
-  path: "src/features/Auth/profile.html",
-  requiresPassword: true
-},
+    path: "src/features/Auth/profile.html",
+    requiresPassword: true,
+  },
 
   "#Presentations": {
     path: "src/features/Presentations/presentations.html",
-    requiresPassword: false
+    requiresPassword: false,
   },
 
   //--------------
@@ -38,7 +38,7 @@ export const routes = {
     path: "src/features/Presentations/TestPP.pdf",
     requiresPassword: true,
     parent: "#Presentations",
-    isPdf: true
+    isPdf: true,
   },
 
   //--------------
@@ -47,15 +47,15 @@ export const routes = {
 
   "#pckDtbSearch": {
     path: "src/features/Tools/pckDtbSearch.html",
-    requiresPassword: true,
+    requiresPassword: false,
     parent: "#Tools",
-    isPdf: false
+    isPdf: false,
   },
 
   "#pckDtbEdit": {
     path: "src/features/Tools/pckDtbEdit.html",
     requiresPassword: true,
     parent: "#Tools",
-    isPdf: false
-  }
+    isPdf: false,
+  },
 };
