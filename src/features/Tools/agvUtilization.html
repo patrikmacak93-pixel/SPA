@@ -1,26 +1,14 @@
-<div
-  id="agvUtilization"
-  style="display: flex; gap: 10px; align-items: center; margin-bottom: 12px"
->
-  <div id="agv-buttons" aria-label="AGV buttons">
-    <button
-      type="button"
-      id="btn-Friederike"
-      class="agv-btn"
-      data-agv-vehicle="Friederike"
-    >
+<div id="agvUtilization">
+  <div id="agv-buttons">
+    <button type="button" id="btn-Friederike" data-agv-vehicle="FRIEDERIKE">
       Friederike
     </button>
   </div>
 
-  <div
-    id="agv-status"
-    aria-live="polite"
-    style="font-size: 0.95rem; color: #333"
-  ></div>
+  <div id="agv-status"></div>
 </div>
 
-<div style="display: flex; gap: 20px; align-items: flex-start">
-  <canvas id="agv-pie-canvas" width="600" height="400"></canvas>
-  <div id="agv-legend" style="min-width: 180px"></div>
+<div>
+  <canvas id="agv-pie-canvas"></canvas>
+  <div id="agv-legend"></div>
 </div>
