@@ -11,7 +11,7 @@ let loginState = {
 
 const LOGIN_API_URL = "https://10.212.32.39:1884/login";
 const LOGIN_STORAGE_KEY = "spaLoginState";
-const INACTIVITY_LIMIT_MS = 1 * 60 * 1000; // 20 minut v milisekundách
+const INACTIVITY_LIMIT_MS = 20 * 60 * 1000; // 20 minut v milisekundách
 
 // Načtení stavu z localStorage
 function loadLoginState() {

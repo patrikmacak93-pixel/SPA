@@ -1,20 +1,45 @@
 #header {
-    display: flex;
-    justify-content: space-between;
-    border: 1px solid black;
-    align-items: center;
-}
-#logo img {
-    width: 200px;
-}
-
-#top-nav{
-    background-color: yellow;
-    padding: 5px;
-    display: flex;
-    gap: 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 75px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px; /* odsazení vlevo i vpravo */
+  background: #fff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  box-sizing: border-box;
 }
 
 #logo {
-    background-color: aqua;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+#logo img {
+  width: 250px;
+  height: 30px;
+}
+
+#top-nav ul {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+  font-size: 20px;
+}
+
+#top-nav a {
+  padding: 8px 10px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: inherit;
+}
+
+#top-nav a:hover {
+  background: #f4f4f4;
+  text-decoration: underline;
 }

@@ -1,8 +1,5 @@
-// subPages/pckDtbSearch.js
-
 (function () {
-  // ⚠️ Tady máš svou IP/port Node-RED
-  const DATA_URL = "https://10.212.32.39:1884/search_pckDtb"; // tu už máš upravenou
+  const DATA_URL = "https://10.212.32.39:1884/search_pckDtb";
 
   function pckDtbSearchInit() {
     console.log("pckDtbSearchInit: start");
@@ -11,7 +8,7 @@
       allTableData: [],
       filteredData: [],
       currentPage: 1,
-      itemsPerPage: 15,
+      itemsPerPage: 10,
       columnFilters: {},
       tableHeaders: [],
     };
@@ -109,21 +106,31 @@
         alert("Žádná data k exportu.");
         return;
       }
+
       const headers = state.tableHeaders;
-      const csv = [
-        headers.join(";"),
-        ...data.map((row) =>
-          headers
-            .map((field) => `"${String(row[field] ?? "").replace(/"/g, '""')}"`)
-            .join(";")
-        ),
-      ].join("\r\n");
-      const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+      const replacer = (key, value) => (value == null ? "" : value);
+      const rows = data.map((row) =>
+        headers.map((h) => String(replacer(h, row[h])).replace(/"/g, '""'))
+      );
+
+      // první řádek pro Excel, aby věděl, že oddělovač je středník
+      const sepLine = "sep=;";
+      const headerLine = headers.join(";");
+      const csvLines = rows.map((r) => r.map((cell) => `"${cell}"`).join(";"));
+      const csvContent = [sepLine, headerLine, ...csvLines].join("\r\n");
+
+      // přidat BOM pro lepší rozpoznání UTF-8 v Excelu (Windows)
+      const BOM = "\uFEFF";
+      const blob = new Blob([BOM + csvContent], {
+        type: "text/csv;charset=utf-8;",
+      });
       const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "pck_filtered_data.csv";
-      a.click();
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "pck_filtered_data.csv";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
       URL.revokeObjectURL(url);
     }
 

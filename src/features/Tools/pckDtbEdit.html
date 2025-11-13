@@ -2,12 +2,33 @@
   <h1>Packaging database – edit</h1>
 
   <div id="pckDtbEditMessage" role="status"></div>
+  <div id="row-section">
+    <fieldset id="upload-form">
+        <legend>Nahraj k tomuto záznamu soubor PSDS (např. PDF)</legend>
+        <label for="field-psdsFile"></label>
+        <input
+          id="field-psdsFile"
+          name="psdsFile"
+          type="file"
+          accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg"
+        >
+      <div id="pckDtbEditUploadStatus" role="status"></div>
+
+      <!-- skryté pole pro URL, která se uloží do DB -->
+      <input id="field-URL1" name="URL1" type="hidden">
+    </fieldset>
+
+
+      <div class="form-buttons">
+        <button type="submit">Odeslat</button>
+        <button type="button" id="pckDtbEditClear">Vymazat formulář</button>
+      </div>
+  </div>
 
   <form id="pckDtbEditForm">
     <!-- GENERAL INFORMATION -->
     <fieldset>
       <legend>General information</legend>
-
       <div>
         <label for="field-Project">Project</label>
         <input id="field-Project" name="Project" type="text">
@@ -167,7 +188,6 @@
     <!-- INNER PACKAGING -->
     <fieldset>
       <legend>Inner packaging</legend>
-
       <div>
         <label for="field-Type_inner_packaging">Type of inner packaging</label>
         <select id="field-Type_inner_packaging" name="Type of inner packaging">
@@ -336,33 +356,5 @@
         </select>
       </div>
     </fieldset>
-
-        </fieldset>
-
-    <section id="pckDtbEditUpload">
-      <h2>PSDS document</h2>
-      <p>Nahraj k tomuto záznamu soubor PSDS (např. PDF).</p>
-
-      <div>
-        <label for="field-psdsFile">Nahrát PSDS</label>
-        <input
-          id="field-psdsFile"
-          name="psdsFile"
-          type="file"
-          accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg"
-        >
-      </div>
-
-      <div id="pckDtbEditUploadStatus" role="status"></div>
-
-      <!-- skryté pole pro URL, která se uloží do DB -->
-      <input id="field-URL1" name="URL1" type="hidden">
-    </section>
-
-    <div>
-      <button type="submit">Odeslat</button>
-      <button type="button" id="pckDtbEditClear">Vymazat formulář</button>
-    </div>
-  </form>
 </div>
 

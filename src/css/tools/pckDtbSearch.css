@@ -1,0 +1,75 @@
+#pckDtbSearchRoot h1 {
+  color: var(--text);
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid black;
+  padding-bottom: 0.5rem;
+}
+
+/* Controls */
+.pck-controls {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.pck-controls label {
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.pck-controls select {
+  margin-left: 0.5rem;
+  padding: 0.3rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Table */
+.pck-table-container {
+  overflow-x: auto;
+}
+
+#pck-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+#pck-table thead tr {
+  background-color: #f5f5f5;
+}
+
+#pck-table th,
+#pck-table td {
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+#pck-table th {
+  color: #00994f;
+  font-weight: bold;
+}
+
+#pck-table tbody tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+#pck-table tbody tr:hover {
+  background-color: #e6f4ec;
+}
+
+/* Pagination */
+.pck-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+  gap: 1rem;
+}
+
+#pck-page-info {
+  font-size: 0.9rem;
+  color: #333;
+}

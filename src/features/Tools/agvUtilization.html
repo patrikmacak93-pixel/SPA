@@ -1,0 +1,20 @@
+<div
+  id="agvUtilization"
+  style="display: flex; gap: 10px; align-items: center; margin-bottom: 12px"
+>
+  <div id="agv-buttons" aria-label="AGV buttons">
+    <!-- Buttons will be rendered here or you can keep static buttons. -->
+    <button id="btn-Friederike" class="agv-btn">Friederike</button>
+  </div>
+
+  <div
+    id="agv-status"
+    aria-live="polite"
+    style="font-size: 0.95rem; color: #333"
+  ></div>
+</div>
+
+<div style="display: flex; gap: 20px; align-items: flex-start">
+  <canvas id="agv-pie-canvas" width="600" height="400"></canvas>
+  <div id="agv-legend" style="min-width: 180px"></div>
+</div>

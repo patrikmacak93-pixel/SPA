@@ -3,26 +3,32 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/src/css/header.css" />
+    <link rel="stylesheet" href="/src/css/main.css" />
     <link rel="icon" type="image/x-icon" href="/src/media/icon.png" />
     <title>LOG eBoard FST</title>
+    <style>
+      body {
+        margin: 0;
+      }
+    </style>
   </head>
   <body>
     <div id="header">
       <div id="logo">
         <img src="/src/media/logo.png" />
       </div>
-      <div id="top-nav">
-        <div id="top-nav">
-          <a href="#Home">Home</a>
-          <a href="#Tools">Tools</a>
-          <a href="#Login" id="loginNavLink">Login</a>
-          <a href="#Presentations">Presentations</a>
-        </div>
-      </div>
+      <nav id="top-nav">
+        <ul id="top-nav">
+          <li><a href="#Home">Home</a></li>
+          <li><a href="#Tools">Tools</a></li>
+          <li><a href="#Login" id="loginNavLink">Login</a></li>
+          <li><a href="#Presentations">Presentations</a></li>
+        </ul>
+      </nav>
     </div>
     <div id="content"></div>
     <script type="module" src="src/js/main.js"></script>
     <script src="src/js/pckDtbSearch.js"></script>
+    <script src="src/js/agvUtilization.js"></script>
   </body>
 </html>

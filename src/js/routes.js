@@ -58,4 +58,11 @@ export const routes = {
     parent: "#Tools",
     isPdf: false,
   },
+
+  "#agvUtilization": {
+    path: "src/features/Tools/agvUtilization.html",
+    requiresPassword: false,
+    parent: "#Tools",
+    isPdf: false,
+  },
 };
