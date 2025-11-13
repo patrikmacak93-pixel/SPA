@@ -1,9 +1,9 @@
 // src/js/agvUtilization.js
-// Globální handler – funguje i když se #agvUtilization do DOM vloží až později.
 
 (function () {
-  console.log("agvUtilization.js loaded (global handler)");
+  console.log("agvUtilization.js loaded");
 
+  // Stejný styl jako ostatní API v projektu
   const KPI_URL = "https://10.212.32.39:1884/agv-kpi";
 
   const LABEL_MAP = {
@@ -15,12 +15,11 @@
     SumActiveFullStatus: "Active (Full)",
     SumOfflineStatus: "Offline",
     SumManualStatus: "Manual",
-    SumFailureStatus: "Failure"
+    SumFailureStatus: "Failure",
   };
 
   let pieChart = null;
 
-  // pokaždé si sáhneme do DOM – protože obsah se může dynamicky měnit
   function getElements() {
     const root = document.getElementById("agvUtilization");
     if (!root) {
@@ -31,11 +30,12 @@
         legendEl: null,
       };
     }
+
     return {
       root,
       statusEl: root.querySelector("#agv-status"),
-      canvas: root.querySelector("#agv-pie-canvas"),
-      legendEl: root.querySelector("#agv-legend"),
+      canvas: document.getElementById("agv-pie-canvas"),
+      legendEl: document.getElementById("agv-legend"),
     };
   }
 
@@ -49,22 +49,31 @@
         const num = Number(v);
         return { key: k, value: Number.isFinite(num) ? num : 0 };
       })
-      .filter(e => e.value > 0);
+      .filter((e) => e.value > 0);
 
     if (entries.length === 0) {
       Object.entries(obj)
         .filter(([k]) => k.startsWith("Sum"))
-        .forEach(([k, v]) => entries.push({ key: k, value: Number(v) || 0 }));
+        .forEach(([k, v]) =>
+          entries.push({ key: k, value: Number(v) || 0 }),
+        );
     }
 
-    const labels = entries.map(e => LABEL_MAP[e.key] || e.key);
-    const data = entries.map(e => e.value);
+    const labels = entries.map((e) => LABEL_MAP[e.key] || e.key);
+    const data = entries.map((e) => e.value);
     return { labels, data };
   }
 
   function renderPie(canvas, labels, data) {
     if (!canvas) {
-      console.warn("renderPie: canvas not found");
+      console.warn("AGV: canvas not found");
+      return;
+    }
+
+    if (typeof Chart === "undefined") {
+      console.error(
+        "AGV: Chart.js není načtený – chybí <script src=\"...chart.umd.min.js\"> v index.html?",
+      );
       return;
     }
 
@@ -75,20 +84,17 @@
       return;
     }
 
-    if (typeof Chart === "undefined") {
-      console.error("Chart.js not loaded – missing <script src=\"...chart.umd.min.js\">");
-      return;
-    }
-
     const ctx = canvas.getContext("2d");
     pieChart = new Chart(ctx, {
       type: "pie",
       data: {
         labels,
-        datasets: [{
-          data,
-          borderWidth: 1
-        }]
+        datasets: [
+          {
+            data,
+            borderWidth: 1,
+          },
+        ],
       },
       options: {
         responsive: true,
@@ -97,21 +103,24 @@
             position: "right",
             labels: {
               boxWidth: 14,
-              padding: 8
-            }
+              padding: 8,
+            },
           },
           tooltip: {
             callbacks: {
               label: function (context) {
                 const value = context.parsed;
-                const total = context.chart._metasets[context.datasetIndex].total;
-                const pct = total ? (value / total * 100).toFixed(1) + "%" : "";
+                const total =
+                  context.chart._metasets[context.datasetIndex].total;
+                const pct = total
+                  ? ((value / total) * 100).toFixed(1) + "%"
+                  : "";
                 return `${context.label}: ${value} (${pct})`;
-              }
-            }
-          }
-        }
-      }
+              },
+            },
+          },
+        },
+      },
     });
   }
 
@@ -129,7 +138,7 @@
     labels.forEach((label, i) => {
       const li = document.createElement("li");
       li.style.marginBottom = "6px";
-      const pct = total ? (data[i] / total * 100).toFixed(1) + "%" : "0%";
+      const pct = total ? ((data[i] / total) * 100).toFixed(1) + "%" : "0%";
       li.textContent = `${label}: ${data[i]} (${pct})`;
       ul.appendChild(li);
     });
@@ -139,36 +148,36 @@
 
   async function queryAgv(vehicleName) {
     const { root, statusEl, canvas, legendEl } = getElements();
-
-    // pokud stránka #agvUtilization není zrovna v DOM, tak nic nedělej
     if (!root) {
-      console.warn("queryAgv called, but #agvUtilization is not in DOM.");
+      console.warn(
+        "AGV: queryAgv zavolán, ale #agvUtilization není v DOM (pravděpodobně jiná route).",
+      );
       return;
     }
 
-    if (statusEl) statusEl.textContent = `Loading KPI for ${vehicleName}...`;
-    console.log("Sending KPI request for", vehicleName);
+    if (statusEl)
+      statusEl.textContent = `Loading KPI for ${vehicleName}...`;
+    console.log("AGV: sending request for", vehicleName);
 
     try {
       const res = await fetch(KPI_URL, {
         method: "POST",
-        mode: "cors",
-        credentials: "include", // stejné chování jako u auth/pckDtb
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ vehicle: vehicleName })
+        body: JSON.stringify({ vehicle: vehicleName }),
       });
 
-      console.log("KPI response status:", res.status, res.statusText);
+      console.log("AGV: response status", res.status, res.statusText);
 
       const text = await res.text();
       let json;
       try {
         json = JSON.parse(text);
       } catch (e) {
-        console.error("Cannot parse KPI JSON:", e, "raw:", text);
-        if (statusEl) statusEl.textContent = "Error: response is not valid JSON.";
+        console.error("AGV: response is not valid JSON:", e, text);
+        if (statusEl)
+          statusEl.textContent = "Error: response is not valid JSON.";
         return;
       }
 
@@ -184,18 +193,18 @@
       renderLegend(legendEl, labels, data);
       if (statusEl) statusEl.textContent = `Showing KPI for ${vehicleName}.`;
     } catch (err) {
-      console.error("KPI fetch error:", err);
+      console.error("AGV: fetch error", err);
       if (statusEl) statusEl.textContent = `Fetch error: ${err.message}`;
     }
   }
 
-  // 🔑 Globální delegovaný listener – funguje i když je tlačítko vložené dynamicky
+  // Globální delegovaný listener – funguje s tvým routerem
   document.addEventListener("click", function (ev) {
-    const btn = ev.target.closest("[data-agv-vehicle], #btn-Friederike");
+    const btn = ev.target.closest("[data-agv-vehicle]");
     if (!btn) return;
 
-    const vehicleName = btn.dataset.agvVehicle || btn.textContent.trim();
-    if (!vehicleName) return;
+    const vehicleName =
+      btn.dataset.agvVehicle || btn.textContent.trim() || "Friederike";
 
     ev.preventDefault();
     console.log("AGV button clicked:", vehicleName);
